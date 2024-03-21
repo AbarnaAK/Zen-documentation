@@ -1,0 +1,97 @@
+Sample Scripts
+
+1. Hello World script:
+
+#!/bin/bash
+echo "Hello World"
+
+2. Create a directory and file:
+
+#!/bin/bash
+mkdir mydirectory
+cd mydirectory
+touch myfile.txt
+echo "Hello World" > myfile.txt
+
+3. Display current date and time:
+
+#!/bin/bash
+echo "Current date and time: $(date)"
+
+4. Rename files in a directory:
+
+#!/bin/bash
+for file in *.txt; do
+    mv "$file" "${file%.txt}.doc"
+done
+
+5. Find and replace text in a file:
+
+#!/bin/bash
+sed -i 's/oldtext/newtext/g' myfile.txt
+
+
+6. Prompt user for input and perform calculation:
+
+#!/bin/bash
+echo "Enter a number:"
+read num1
+echo "Enter another number:"
+read num2
+result=$((num1 + num2))
+echo "The result is: $result"
+
+7. Display system information:
+
+#!/bin/bash
+echo "System information:"
+echo "Kernel version: $(uname -r)"
+echo "Hostname: $(hostname)"
+echo "CPU architecture: $(uname -m)"
+echo "Total memory: $(free -m | awk '/Mem/{print $2}') MB"
+echo "Disk usage: $(df -h / | awk '/\//{print $5}') used"
+
+8. Count the number of lines in a file:
+
+#!/bin/bash
+echo "Enter the filename:"
+read filename
+if [ -f "$filename" ]; then
+    lines=$(wc -l < "$filename")
+    echo "The file $filename has $lines lines."
+else
+    echo "Error: file not found."
+fi
+
+
+9. Copy files from one directory to another:
+
+#!/bin/bash
+echo "Enter the source directory:"
+read source
+echo "Enter the destination directory:"
+read destination
+if [ -d "$source" ]; then
+    cp -r "$source"/* "$destination"
+    echo "Files copied successfully."
+else
+    echo "Error: source directory not found."
+fi
+
+10. Check if a website is up or down:
+
+#!/bin/bash
+echo "Enter the website URL:"
+read url
+if curl --output /dev/null --silent --head --fail "$url"; then
+    echo "Website $url is up."
+else
+    echo "Website $url is down."
+fi
+
+11. Convert all files in a directory to lowercase:
+
+#!/bin/bash
+for file in *; do
+    mv "$file" "${file,,}"
+done

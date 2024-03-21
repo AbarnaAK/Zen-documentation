@@ -1,0 +1,237 @@
+# Virtual Machine 💻
+A virtual machine (VM) is a virtual environment that functions as a virtual computer system with its own CPU, memory, network interface, and storage, created on a physical hardware system (located off- or on-premises). Software called a hypervisor separates the machine’s resources from the hardware and provisions them appropriately so they can be used by the VM. 
+
+# Docker 🦈
+Docker is an open source containerization platform for building, deploying, and managing containerized applications. It enables to package applications into containers that encapsulate source code, libraries and dependencies required to run that code in any environment.
+
+# Docker v/s virtual Machine
+
+Virtual machine has its guest operating system above the host operating system, which makes virtual machines heavy. While on the other hand, Docker containers share the host operating system, and that is why they are lightweight.
+
+The virtual machine does no share operating system, and there is strong isolation in the host kernel. Hence, they are more secure as compared to Containers. A container have a lot of security risks, and vulnerabilities as the containers have shared host kernel.
+
+Docker containers are easily portable because they do not have separate operating systems. A container can be ported to a different OS, and it can start immediately. On the other hand, virtual machines have separate OS, so porting a virtual machine is difficult as compared to containers.
+
+Containers are lightweight and can startup very fast compared to that of virtual machines, 
+
+![containers-vs-virtual-machines](https://github.com/yasminjeelani/Devops_demo_apps/assets/36299748/6770545a-4b40-4e0c-af0f-2b598f4b6898)
+
+# Containers
+A container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another. Containers share the machine's OS system Kernel and therefore do not require an OS per application.
+
+Container is just a process running from directory and all the data is coming from image.
+
+# Why Docker?
+* Lightweight
+* Isolation
+* Scalability
+* Performance
+* Portability
+
+# Docker Engine
+Docker Engine is an open source containerization technology for building and containerizing your applications. Docker Engine acts as a client-server application.
+
+# Docker Architecture
+Docker uses a client-server architecture. The Docker client talks to the Docker daemon, which does the heavy lifting of building, running, and distributing your Docker containers. The Docker client and daemon can run on the same system, or you can connect a Docker client to a remote Docker daemon. The Docker client and daemon communicate using a REST API, over UNIX sockets or a network interface. 
+
+
+![DockerArchitecture_1](https://github.com/yasminjeelani/Devops_demo_apps/assets/36299748/19d22ff5-781d-4084-ac0e-068a624172ae)
+
+
+# Install Docker 
+
+https://docs.docker.com/get-docker/
+
+By default only root user can execute docker commnads but if other users want permission to run docker commands.
+
+Add the users into docker group: /etc/group/
+```
+sudo usermod -aG docker user
+```
+# Docker Hub
+Docker Hub is a service provided by Docker for finding and sharing container images with your team. It's world’s largest repository of container images with an array of content sources including container community developers, open source projects and independent software vendors (ISV) building and distributing their code in containers.
+
+https://hub.docker.com/
+
+# Docker Image
+A Docker image is a file used to execute code in a Docker container. Docker images act as a set of instructions to build a Docker container, like a template. Docker images also act as the starting point when using Docker. 
+
+# Docker-commands
+* List running container               :
+ ```
+ docker ps
+ ```
+* List all container even exited one   :
+```
+docker ps -a
+```
+* Stop Container use Id/conatiner name : 
+```
+docker stop container name/container Id
+```
+* List all docker Images               : 
+```
+docker images
+```
+* Remove docker images                 : 
+```
+docker rmi image-name
+```
+* Run Docker Image                     : 
+```
+docker run image-name
+```
+* Run Docker Image and give name to it : 
+```
+docker run --name myImage image-name
+```
+* Run Docker Image and map it to host port: 
+```
+docker run -p host-port:container-port image-name
+```
+* Pull image from docker hub           : 
+```
+docker pull image-name
+```
+* Execute command in docker container  : 
+```
+docker exec image-name cat /etc/os-release
+```
+* Run image in detach mode             : 
+```
+docker run -d image-name 
+```
+* Run image in attach mode             : 
+```
+docker attach id
+```
+* Run particular version of an image   : 
+```
+docker run image-name:tag
+```
+* Run image in interactive mode        : 
+```
+docker run -i image-name
+```
+* Remove container                     : 
+```
+docker rm container-id
+```
+* Volume mapping                       :
+```
+docker run -v /opt/backup_dir:/var/lib/jenkins jenkins
+```
+* Inspect container                    : 
+```
+docker inspect container-name
+```
+# Docker Logs: 
+you can check if container is nor running or there is some error.
+
+* Container logs    : 
+```
+docker logs container-name/container-id
+```
+
+## Create your own image
+- We can create our image using Dockerfile
+- Define steps
+- Build image (docker build)
+```
+Dockerfile build -t docker_hub_username/application-name
+```
+## Dockerfile Instructions
+
+**FROM** - Take Base Image (Take from docker hub)
+
+**LABELS** - Key value pairs, give project name or author name
+
+**RUN** - Execute commands
+
+**ADD/COPY** - Add files and folders into image
+
+**ENTRYPOINT** - Allows you to configure a container that will run as an executable
+
+**VOLUME** - Creates a mount point and marks it as holding externally mounted volumes
+
+**EXPOSE** - Container listens on the specific network ports at runtime
+
+**ENV** - To set an environmemt variable
+
+**USER** - Sets the username
+
+**WORKDIR** - Sets the working directory
+
+**ARG** - Define a variables that user can pass at build time
+
+**ONBUILD** - Adds to the image trigger instruction to be executed at a later time
+
+
+- Push image  
+```
+docker push docker_hub_username/application-name 
+```
+
+# Docker Volumes: 
+The data doesn't persist when container is not running.
+Docker has two options to persist data in the host machine.
+
+### Volumes
+
+Managed by docker(/var/lib/docker/volumes/ on Linux)
+
+#### Example of voume creation
+
+```
+docker volume create myContainerData
+```
+```
+docker run --name myWebService -d -p 8080:8080 -v myContainerData:/var/lib/image-name image-name:tag
+```
+* Find your container data in /var/lib/docker/volumes/myContainerData/_data/
+
+### Bind Mounts
+
+Stored anywhere in the host system
+
+#### Example of bind mounts
+
+```
+docker run --name myWebService -d -p 8080:8080 -v /home/ubuntu/myContainerData:/var/lib/image-name image-name:tag
+```
+
+## Docker Compose
+Docker Compose is a tool that was developed to help define and share multi-container applications. With Compose, we can create a YAML file to define the services and with a single command, can spin everything up or tear it all down.
+
+# Docker Overview
+
++ **Containers:** Docker containers are isolated runtime environments that package an application and its dependencies. Containers are built from Docker images, which are read-only templates that define the application's environment.
+
++ **Images:** Docker images are the building blocks of containers. They contain a base operating system, application code, libraries, and dependencies required to run the application. Images are created from a set of instructions defined in a Dockerfile, and they can be stored in registries like Docker Hub.
+
++ **Dockerfile:** A Dockerfile is a text file that contains a set of instructions for building a Docker image. It specifies the base image, application code, dependencies, environment variables, and other configuration details needed to create the image.
+
++ **Registries:** Docker registries are repositories for storing and distributing Docker images. The most popular registry is Docker Hub, which hosts a vast collection of pre-built images. You can also set up private registries to store your custom images.
+
++ **Docker Engine:** Docker Engine is the runtime that executes and manages Docker containers. It consists of the Docker daemon, which runs as a background process, and the Docker CLI (Command Line Interface), which allows users to interact with the Docker daemon.
+
++ **Containerization Benefits:** Docker's containerization provides several benefits, including:
+
+- **Portability:** Containers can run on any system with Docker, regardless of the underlying infrastructure.
+
+- **Isolation:** Containers are isolated from each other and the host system, ensuring that applications run consistently.
+
+- **Scalability:** Docker makes it easy to scale applications by deploying multiple containers across different systems.
+
+- **Resource Efficiency:** Containers share the host system's kernel, which results in lower resource consumption compared to running multiple virtual machines.
+
+- **Version Control:** Docker images and Dockerfiles enable version control, making it easy to track and reproduce deployments.
+
+- **Docker Compose:** Docker Compose is a tool that allows you to define and run multi-container applications using a YAML file. It simplifies the process of managing complex application setups by defining the services, networks, and volumes required for the application's components.
+
++ **Orchestration:** Docker Swarm and Kubernetes are popular tools for container orchestration. They help manage and automate the deployment, scaling, and load balancing of containers across a cluster of machines.
+
++ **Docker Security:** Docker provides built-in security features such as isolation, resource constraints, and control over container privileges. However, it's important to follow security best practices, such as regularly updating images, scanning for vulnerabilities, and using appropriate access controls.
+
++ **Community and Ecosystem:** Docker has a vibrant community and a rich ecosystem of tools and extensions. It integrates with various development and deployment workflows and can be used with different programming languages and frameworks."
+ 
